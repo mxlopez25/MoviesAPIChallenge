@@ -19,8 +19,10 @@ class DetailsActivity : AppCompatActivity() {
     private var isFavorite = false
     private lateinit var movie: Movie
     private lateinit var prefs: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         prefs = this.getPreferences(Context.MODE_PRIVATE)
@@ -52,12 +54,12 @@ class DetailsActivity : AppCompatActivity() {
         }
 
         binding.btnAddToFavorite.setOnClickListener {
-            Constants.addMovieToFavorite(movie, prefs)
+            Constants.addMovieToFavorite(movie, applicationContext, prefs)
             updateFavoriteButtons()
         }
 
         binding.btnRemoveFavorite.setOnClickListener {
-            Constants.removeMovieFromFavorite(movie, prefs)
+            Constants.removeMovieFromFavorite(movie, applicationContext, prefs)
             updateFavoriteButtons()
         }
     }

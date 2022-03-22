@@ -8,4 +8,7 @@
     <string name="remove_from_favorite_label">Remove from Favorite</string>
     <string name="search_label">Search</string>
     <string name="favorites_label">Favorites</string>
+
+    <string name="saved_movies">SAVED_MOVIES</string>
+    <string name="saved_favorites">SAVED_FAVORITES</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.mxlopez.moviesapichallenge
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -25,7 +27,7 @@ class SearchFragment : Fragment() {
 
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var sharedViewModelFactory: SharedViewModelFactory
-    private lateinit var repository: MovieDbApiRepository
+    private lateinit var prefs: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -34,6 +36,7 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         sharedViewModelFactory = SharedViewModelFactory(MovieDbApiRepository())
         sharedViewModel = ViewModelProvider(requireActivity(), sharedViewModelFactory).get(SharedViewModel::class.java)
@@ -55,10 +58,10 @@ class SearchFragment : Fragment() {
 
     private fun loadList(value: String? = "") {
         val add: (Movie) -> Unit = { m ->
-            Constants.addMovieToFavorite(m)
+            Constants.addMovieToFavorite(m, requireContext(), prefs)
         }
         val remove: (Movie) -> Unit = { m ->
-            Constants.removeMovieFromFavorite(m)
+            Constants.removeMovieFromFavorite(m, requireContext(), prefs)
         }
         if(value.isNullOrEmpty()) {
             adapter = MovieListAdapter(Constants.getFavoritesMovies(), add, remove)

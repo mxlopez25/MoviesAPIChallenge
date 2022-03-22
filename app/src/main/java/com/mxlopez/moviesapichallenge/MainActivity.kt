@@ -26,9 +26,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sharedViewModel: SharedViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         prefs = this.getPreferences(Context.MODE_PRIVATE)
+        Constants.initiateFavorites(applicationContext, prefs)
         val repository = MovieDbApiRepository()
         val factory = SharedViewModelFactory(repository)
         sharedViewModel = ViewModelProvider(this, factory).get(SharedViewModel::class.java)

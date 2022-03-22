@@ -1,8 +1,12 @@
 package com.mxlopez.moviesapichallenge.util
 
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.mxlopez.moviesapichallenge.R
 import com.mxlopez.moviesapichallenge.models.Movie
 
 class Constants {
@@ -20,26 +24,54 @@ class Constants {
         const val MOVIE_IMAGE_TAG = "MOVIE_IMAGE_TAG"
 
 
-
         private var favoritesMovies: MutableList<Movie> = mutableListOf()
+
         var movieList: MutableList<Movie> = mutableListOf()
 
-        fun addMovieToFavorite(movie: Movie, prefs: SharedPreferences) {
-            if(favoritesMovies.isNullOrEmpty()) {
+        fun initiateFavorites(context: Context, prefs: SharedPreferences) {
+            val gson = Gson()
+            val s = prefs.getString("SAVED_FAVORITES", "")
+            if (!s.isNullOrEmpty()) {
+                val mutableListMovieType = object : TypeToken<MutableList<Movie>>() {}.type
+                val data: MutableList<Movie> = gson.fromJson(s, mutableListMovieType)
+                favoritesMovies = data
+            }
+        }
+
+        fun addMovieToFavorite(movie: Movie, context: Context, prefs: SharedPreferences) {
+            if (favoritesMovies.isNullOrEmpty()) {
                 favoritesMovies = mutableListOf(movie)
             } else {
                 favoritesMovies.add(movie)
             }
+
+            with(prefs.edit()) {
+                val gson = Gson()
+                putString(
+                    "SAVED_FAVORITES",
+                    gson.toJson(favoritesMovies)
+                )
+                apply()
+            }
         }
 
-        fun removeMovieFromFavorite(movie: Movie, prefs: SharedPreferences) {
-            if(favoritesMovies.isNotEmpty()) {
+        fun removeMovieFromFavorite(movie: Movie, context: Context, prefs: SharedPreferences) {
+            if (favoritesMovies.isNotEmpty()) {
                 favoritesMovies.remove(movie)
+            }
+
+            with(prefs.edit()) {
+                val gson = Gson()
+                putString(
+                    "SAVED_FAVORITES",
+                    gson.toJson(favoritesMovies)
+                )
+                apply()
             }
         }
 
         fun getFavoritesMovies(): MutableList<Movie> {
-                return favoritesMovies
+            return favoritesMovies
         }
 
         fun isMovieFavorite(movie: Movie): Boolean {

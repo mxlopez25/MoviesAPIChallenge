@@ -1,5 +1,7 @@
 package com.mxlopez.moviesapichallenge
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,6 +19,8 @@ import com.mxlopez.moviesapichallenge.util.Constants
 class FavoritesFragment : Fragment() {
     private lateinit var binding: FragmentFavoritesBinding
     private lateinit var adapter: MovieListAdapter
+    private lateinit var prefs: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -27,6 +31,7 @@ class FavoritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
         loadList()
         return binding.root
     }
@@ -38,10 +43,10 @@ class FavoritesFragment : Fragment() {
 
     private fun loadList() {
         val add: (Movie) -> Unit = { m ->
-            Constants.addMovieToFavorite(m)
+            Constants.addMovieToFavorite(m, requireContext(), prefs)
         }
         val remove: (Movie) -> Unit = { m ->
-            Constants.removeMovieFromFavorite(m)
+            Constants.removeMovieFromFavorite(m, requireContext(), prefs)
         }
 
         adapter = MovieListAdapter(Constants.getFavoritesMovies(), add, remove)

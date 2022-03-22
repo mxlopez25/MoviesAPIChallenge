@@ -1,5 +1,7 @@
 package com.mxlopez.moviesapichallenge.fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,6 +23,7 @@ class HomeFragment : Fragment() {
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var sharedViewModelFactory: SharedViewModelFactory
     private lateinit var repository: MovieDbApiRepository
+    private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +36,14 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         repository = MovieDbApiRepository()
         sharedViewModelFactory = SharedViewModelFactory(repository)
+        prefs = requireActivity().getPreferences(Context.MODE_PRIVATE)
 
         sharedViewModel = ViewModelProvider(requireActivity(), sharedViewModelFactory).get(SharedViewModel::class.java)
         val add: (Movie) -> Unit = { m ->
-            Constants.addMovieToFavorite(m)
+            Constants.addMovieToFavorite(m, requireContext(), prefs)
         }
         val remove: (Movie) -> Unit = { m ->
-            Constants.removeMovieFromFavorite(m)
+            Constants.removeMovieFromFavorite(m, requireContext(), prefs)
         }
         sharedViewModel.movies.observe(viewLifecycleOwner) {
             binding.rvMovieList.adapter = MovieListAdapter(it!!, add, remove)
