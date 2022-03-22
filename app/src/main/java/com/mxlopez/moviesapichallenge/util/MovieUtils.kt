@@ -1,5 +1,6 @@
 package com.mxlopez.moviesapichallenge.util
 
+import com.mxlopez.moviesapichallenge.models.Movie
 import java.text.DecimalFormat
 
 class MovieUtils {
@@ -8,4 +9,6 @@ class MovieUtils {
         // ().toString()
         return df.format(rate/1000).toString()
     }
+
+
 }

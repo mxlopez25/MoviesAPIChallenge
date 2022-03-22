@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="movie_name_label">Movie Name</string>
+    <string name="release_date_label">Release Date</string>
+    <string name="overview_label">Overview</string>
+    <string name="movie_released_label">Released Date:\n %s</string>
+    <string name="add_to_favorites_label">Add To Favorites</string>
+    <string name="remove_from_favorite_label">Remove from Favorite</string>
+    <string name="search_label">Search</string>
+    <string name="favorites_label">Favorites</string>
 </resources>

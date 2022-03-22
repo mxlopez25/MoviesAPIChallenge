@@ -22,7 +22,7 @@ class SharedViewModel(private val repository: MovieDbApiRepository): ViewModel()
         viewModelScope.launch {
             val response = repository.getMovies()
             if(response.isSuccessful) {
-                Log.d("SharedViewModel - fetchMovies", response.body().toString())
+                Log.d("SharedViewModel", response.body().toString())
                 _movies.value = response.body()?.results
             }
         }
