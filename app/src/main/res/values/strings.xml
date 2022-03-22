@@ -10,4 +10,7 @@
     <string name="home_label">Home</string>
     <string name="search_label">Search</string>
     <string name="favorites_label">Favorites</string>
+
+    <string name="saved_movies">SAVED_MOVIES</string>
+    <string name="saved_favorites">SAVED_FAVORITES</string>
 </resources>

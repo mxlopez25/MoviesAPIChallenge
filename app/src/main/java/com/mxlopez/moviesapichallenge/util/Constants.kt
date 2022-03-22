@@ -1,5 +1,6 @@
 package com.mxlopez.moviesapichallenge.util
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mxlopez.moviesapichallenge.models.Movie
@@ -18,10 +19,12 @@ class Constants {
         const val MOVIE_OVERVIEW_TAG = "MOVIE_OVERVIEW_TAG"
         const val MOVIE_IMAGE_TAG = "MOVIE_IMAGE_TAG"
 
+
+
         private var favoritesMovies: MutableList<Movie> = mutableListOf()
         var movieList: MutableList<Movie> = mutableListOf()
 
-        fun addMovieToFavorite(movie: Movie) {
+        fun addMovieToFavorite(movie: Movie, prefs: SharedPreferences) {
             if(favoritesMovies.isNullOrEmpty()) {
                 favoritesMovies = mutableListOf(movie)
             } else {
@@ -29,7 +32,7 @@ class Constants {
             }
         }
 
-        fun removeMovieFromFavorite(movie: Movie) {
+        fun removeMovieFromFavorite(movie: Movie, prefs: SharedPreferences) {
             if(favoritesMovies.isNotEmpty()) {
                 favoritesMovies.remove(movie)
             }

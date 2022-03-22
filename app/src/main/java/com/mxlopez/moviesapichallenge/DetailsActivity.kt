@@ -1,5 +1,7 @@
 package com.mxlopez.moviesapichallenge
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,16 +11,19 @@ import coil.api.load
 import com.mxlopez.moviesapichallenge.databinding.ActivityDetailsBinding
 import com.mxlopez.moviesapichallenge.models.Movie
 import com.mxlopez.moviesapichallenge.util.Constants
+import com.mxlopez.moviesapichallenge.viewmodels.SharedViewModel
 
 class DetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailsBinding
     private var mId = 0
     private var isFavorite = false
     private lateinit var movie: Movie
+    private lateinit var prefs: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        prefs = this.getPreferences(Context.MODE_PRIVATE)
         val bundle = intent.extras
         if (bundle != null) {
             mId = bundle.getInt(Constants.MOVIE_ID_TAG)
@@ -47,14 +52,12 @@ class DetailsActivity : AppCompatActivity() {
         }
 
         binding.btnAddToFavorite.setOnClickListener {
-
-            Constants.addMovieToFavorite(movie)
+            Constants.addMovieToFavorite(movie, prefs)
             updateFavoriteButtons()
         }
 
         binding.btnRemoveFavorite.setOnClickListener {
-
-            Constants.removeMovieFromFavorite(movie)
+            Constants.removeMovieFromFavorite(movie, prefs)
             updateFavoriteButtons()
         }
     }
